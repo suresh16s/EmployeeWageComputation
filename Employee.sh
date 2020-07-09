@@ -1,33 +1,38 @@
-#!/bin/bash 
+#!/bin/bash -x
+echo "Welcome to employee wage computation program"
 #variables
-Wage_per_hour=20
-Full_day_hour=8
-Part_time_hour=4
-Full_time=1
-Half_time=2
-workingDaysPerMonth=20
+Wage_Per_Hours=20
+Working_Hours=8
+Part_Time_Hours=4
 Absent=0
-Month_wage=0
+Full_Time=1
+Part_Time=2
+Total_Wage=0
+Total_Working_Hrs=0
+Total_Working_Days=0
 
-for (( count=0; count<$workingDaysPerMonth; count++ ))
+while [[ $Total_Working_Hrs -lt 100 && $Total_Working_Days -lt 20 ]]
 do
-	isPresent=$(( RANDOM%3 ))
+	isPresent=$(( RANDOM % 3  ))
+	((Total_Working_Days++))
 	case $isPresent in
-        	$Full_time)
-        	echo "Employee is Present:"
-        	Daily_wage=$(( $Wage_per_hour * $Full_day_hour ))
-		Month_wage=$(( $Month_wage + $Daily_wage )) ;;
-
-        	$Half_time)
-        	echo "Employee is part time Present:"
-        	Daily_wage=$(( $Wage_per_hour* $Part_time_hour ))
-		Month_wage=$(( $Month_wage + $Daily_wage )) ;;
-
-
-        	$Absent)
-        	echo "Employee is Absent:"
-        	Month_wage=0 ;;
+		$Full_Time)
+		echo "Employee is Present full time"
+		Daily_Wage=$(( $Wage_Per_Hours * $Working_Hours ))
+		Total_Wage=$(( $Total_Wage + $Daily_Wage ))
+		Total_Working_Hrs=$(( $Total_Working_Hrs + $Working_Hours ))
+		;;
+		$Part_Time)
+		echo "employee is  Present partime"
+		Daily_Wage=$(( $Wage_Per_Hours * $Part_Time_Hours ))
+		Total_Wage=$(( $Total_Wage + $Daily_Wage ))
+		Total_Working_Hrs=$(( $total_Working_Hrs + $Working_Hours ))
+		;;
+		$Absent)
+		echo "Employee is Absent"
+		Daily_Wage=0
+		Total_Wage=$(( $Total_Wage + $Daily_Wage ))
+		;;
 	esac
 done
-echo "The Monthly wage is:$Month_wage"
-
+echo "Total wage is:" $Total_Wage
